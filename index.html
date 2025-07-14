@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio - Muhammad Ismij Hidayat</title>
+    <title>Portofolio - Muhammad Ismij Hidayat</title>
     <!-- Chosen Palette: Warm Neutral Harmony -->
     <!-- Application Structure Plan: A single-page application with a top navigation bar for smooth scrolling. The structure prioritizes impact by featuring an interactive project case study section. Users select a project, and the page dynamically updates text and a Chart.js visualization to showcase key results. This design moves beyond a linear slide deck to an engaging, user-driven exploratory experience, which is more effective for busy hiring managers. An "Approach & Skills" section uses tabs to keep detailed information organized and accessible without cluttering the main view. -->
     <!-- Visualization & Content Choices: 
@@ -52,6 +52,58 @@
             color: #2D3748;
         }
         /* Removed .project-icon styling as icons are no longer used */
+        /* Removed custom scrollbar for better aesthetics */
+
+        /* Back to Top Button Styling */
+        #back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #4A5568; /* Changed to a darker gray */
+            color: white;
+            padding: 10px 15px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: opacity 0.3s, visibility 0.3s, background-color 0.3s; /* Added background-color transition */
+            opacity: 0;
+            visibility: hidden;
+            z-index: 1000;
+        }
+        #back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        #back-to-top:hover {
+            background-color: #2D3748; /* Darker gray on hover */
+        }
+
+        /* Copy to Clipboard Icon Styling */
+        .copy-icon {
+            cursor: pointer;
+            margin-left: 8px;
+            color: #6B7280; /* Default gray color */
+            transition: color 0.2s;
+            display: inline-block; /* Ensure it respects margin-left */
+            vertical-align: middle; /* Align icon vertically with text */
+        }
+        .copy-icon:hover {
+            color: #C05621; /* Accent color on hover */
+        }
+        .copy-feedback {
+            margin-left: 8px;
+            font-size: 0.875rem;
+            color: #10B981; /* Green for success */
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .copy-feedback.show {
+            opacity: 1;
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -94,7 +146,7 @@
             <div class="container mx-auto px-6">
                 <div class="text-center mb-12">
                     <h2 class="text-3xl font-bold text-gray-800">Data-Driven & User-Driven Product Manager</h2>
-                    <p class="mt-2 text-lg text-gray-600 max-w-3xl mx-auto">I am an experienced Product Manager passionate about building user-centric solutions. I combine business strategy with user insights to create digital products that not only succeed in the market but are also loved by users.</p>
+                    <p class="mt-2 text-lg text-gray-600 max-w-3xl mx-auto">I am an experienced Product Manager passionate about building user-centric solutions. I combine business strategy with user insights to create digital products that not only succeed in the market but are also loved by users</p>
                 </div>
                 <div class="grid md:grid-cols-3 gap-8 text-center">
                     <div class="bg-white p-8 rounded-xl shadow-md border border-gray-100">
@@ -113,6 +165,10 @@
                         <p class="text-gray-600">Having experience in various sectors: POS SaaS Fintech, HRIS Tech, and Insurtech, gives me a rich perspective. High-Accuracy, and Mobile-First environments.</p>
                     </div>
                 </div>
+                <!-- New CTA after About Me section -->
+                <div class="text-center mt-12">
+                    <a href="#contact" class="inline-block bg-orange-600 text-white font-bold rounded-lg px-8 py-3 hover:bg-orange-700 transition-colors duration-300 shadow-lg">Let's Connect</a>
+                </div>
             </div>
         </section>
 
@@ -123,6 +179,7 @@
                     <p class="mt-2 text-lg text-gray-600">Select a product to see how I turned challenges into measurable results</p>
                 </div>
                 
+                <!-- Project Selector - Reverted to non-swipable, flex-wrap -->
                 <div id="project-selector" class="flex flex-wrap justify-center gap-3 md:gap-4 mb-10">
                 </div>
 
@@ -130,12 +187,13 @@
                     <div class="grid lg:grid-cols-5 gap-8">
                         <div class="lg:col-span-2">
                             <h3 id="project-title" class="text-2xl font-bold text-gray-800 mb-1"></h3>
-                            <p id="project-role" class="font-medium text-gray-500 mb-4"></p>
+                            <p id="project-role" class="font-medium text-gray-500 mb-2"></p>
+                            <a id="project-link" href="#" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline text-sm mb-4 block"></a>
                             
-                            <h4 class="font-semibold text-gray-700 mt-6 mb-2">Main Challenges</h4>
+                            <h4 class="font-semibold text-gray-700 mt-6 mb-2">Key Challenges</h4>
                             <p id="project-problem" class="text-gray-600"></p>
 
-                            <h4 class="font-semibold text-gray-700 mt-6 mb-2">Key Initiatives</h4>
+                            <h4 class="font-semibold text-gray-700 mt-6 mb-2">Some Key Initiatives</h4>
                             <ul id="project-initiatives" class="list-disc list-inside text-gray-600 space-y-1">
                             </ul>
                         </div>
@@ -147,6 +205,7 @@
                                 <span id="project-result-unit" class="font-bold text-gray-800"></span>
                                 <span id="project-result-description-text"></span>
                             </p>
+                            <p id="project-overall-contribution" class="text-center mt-2 text-base font-semibold text-gray-700"></p>
                             <div class="chart-container">
                                 <canvas id="project-chart"></canvas>
                             </div>
@@ -227,13 +286,18 @@
                         </div>
                     </div>
                 </div>
-            </section>
+                <!-- New CTA after Approach & Expertise section -->
+                <div class="text-center mt-12">
+                    <a href="#contact" class="inline-block bg-gray-800 text-white font-bold rounded-lg px-8 py-3 hover:bg-gray-700 transition-colors duration-300 shadow-lg">Schedule a Call</a>
+                </div>
+            </div>
+        </section>
 
             <section id="testimonials" class="py-20 bg-gray-100">
                 <div class="container mx-auto px-6">
                     <div class="text-center mb-12">
                         <h2 class="text-3xl font-bold text-gray-800">What They Say About Me</h2>
-                        <p class="mt-2 text-lg text-gray-600">A few quotes from colleagues and managers</p>
+                        <p class="mt-2 text-lg text-gray-600">A few quotes from colleagues and leaders</p>
                     </div>
                     <div class="grid md:grid-cols-2 gap-8">
                         <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100">
@@ -243,6 +307,27 @@
                         <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100">
                             <p class="text-gray-700 italic mb-4">"Hidayat is a smart guy and loves to understand the problems in depth by asking right set of questions which shows he has a great potential to be a very fine and polished product leader. He has shown great persistence and urge of learning during his journey at Lifepal and thus I recommend firms to consider him for product roles and other projects management roles."</p>
                             <p class="text-gray-800 font-semibold">- Shivang Gupta, AI Leader - Product Expert</p>
+                        </div>
+                        <!-- New Testimonials Added Below -->
+                        <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+                            <p class="text-gray-700 italic mb-4">"Ismij's ability to create clear and comprehensive PRDs made our tasks as developers straightforward and well-guided. His documents were not only meticulous in detailing what was needed but also why each element was important, aligning the entire team with the project's vision and objectives. This clarity was instrumental in enhancing our efficiency and effectiveness in development.
+
+As a Mobile Developer, I especially appreciated Ismij's collaborative approach. He consistently demonstrated a deep understanding of product development intricacies, which significantly contributed to the success of our projects. His capacity to dissect complex issues and articulate clear, actionable solutions was invaluable."</p>
+                            <p class="text-gray-800 font-semibold">- Bagus Kurnianto, Lead Software Engineer</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+                            <p class="text-gray-700 italic mb-4">"I had the pleasure of working alongside Muhammad Ismij Hidayat while at Lifepal as a Product Designer. Working collaboratively with Muhammad Ismij Hidayat as a Product Designer at Lifepal. Throughout our time working together, I was continually impressed by his dedicated professionalism and intuitive product knowledge. His strong managerial skills were a vital contribution to the success of our product development team at Lifepal.
+
+He was a valuable asset to the product development team and He was able to effectively manage multiple projects while maintaining a high level of quality, making him an exceptional Product Manager. I highly recommend Muhammad Ismij Hidayat for any Product Management role, as he is a dedicated and talented professional who will bring value to any organization."</p>
+                            <p class="text-gray-800 font-semibold">- Tobi Santoso, Product Designer</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+                            <p class="text-gray-700 italic mb-4">"Hidayat is always open for discussions when our team comes to difficulties and challenges which is very helpful to sum up all of our individual findings to make better decisions or solutions."</p>
+                            <p class="text-gray-800 font-semibold">- Indra Tanaya, Software Development Engineer</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+                            <p class="text-gray-700 italic mb-4">"A great leader is not a dictator, but a caring mentor. Ismed is that kind of manager. great problem solver, smart and goal-oriented person."</p>
+                            <p class="text-gray-800 font-semibold">- Ken Bagas Nandito Pandjaitan, Developer</p>
                         </div>
                     </div>
                 </div>
@@ -255,9 +340,21 @@
             <p class="mt-4 max-w-xl mx-auto">I'm ready to help take your product to the next level
             <br>Let's Connect!</p>
             <div class="mt-8 space-y-4 md:space-y-0 md:space-x-8 flex flex-col md:flex-row justify-center items-center">
-                 <a href="mailto:hidayat.ismed@gmail.com" class="hover:text-orange-300 transition-colors">✉️ hidayat.ismed@gmail.com</a>
+                 <div class="flex items-center">
+                    <a href="mailto:hidayat.ismed@gmail.com" class="hover:text-orange-300 transition-colors">✉️ hidayat.ismed@gmail.com</a>
+                    <span class="copy-icon" data-copy-text="hidayat.ismed@gmail.com" title="Salin Email">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    </span>
+                    <span class="copy-feedback" id="email-copy-feedback">Disalin!</span>
+                 </div>
                  <span class="hidden md:inline">|</span>
-                 <a href="tel:+6289526894151" class="hover:text-orange-300 transition-colors">📞 +62 8952 689 4151</a>
+                 <div class="flex items-center">
+                    <a href="tel:+6289526894151" class="hover:text-orange-300 transition-colors">📞 +62 8952 689 4151</a>
+                    <span class="copy-icon" data-copy-text="+6289526894151" title="Salin Nomor Telepon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    </span>
+                    <span class="copy-feedback" id="phone-copy-feedback">Disalin!</span>
+                 </div>
                  <span class="hidden md:inline">|</span>
                  <a href="https://www.linkedin.com/in/hidayatim/" target="_blank" rel="noopener noreferrer" class="hover:text-orange-300 transition-colors">🔗 LinkedIn</a>
             </div>
@@ -268,14 +365,20 @@
         </div>
     </footer>
 
+    <!-- Back to Top Button -->
+    <button id="back-to-top" title="Kembali ke Atas">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-up"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+    </button>
+
     <script>
-        window.onload = function() { // Changed from DOMContentLoaded
+        window.onload = function() {
             const portfolioData = {
                 projects: [
                     {
                         id: 'labamu',
-                        name: 'Labamu POS',
-                        role: 'Senior Product Manager – POS Order Management',
+                        name: 'Labamu (Order Management System – POS+PPOB+QRIS Mobile & Web App)',
+                        role: 'Senior Product Manager @ PT Tunas Digital Indonesia',
+                        link: 'https://labamu.co.id',
                         problem: 'Fragmented order process and frequent cashier errors in offline-first environment',
                         initiatives: [
                             'Redesigned checkout UX to minimize human error',
@@ -283,17 +386,19 @@
                             'Optimized for offline reliability and automatic sync when reconnected'
                         ],
                         results: {
-                            label: 'Order Input Errors', // Added label for chart dataset
+                            label: 'Order Input Errors',
                             animatedValue: 40,
                             unit: '%',
                             prefix: '',
-                            descriptionText: 'fewer order input errors, reduced kitchen wait time complaints. Increased +25% merchant satisfaction.'
+                            descriptionText: 'fewer order input errors, reduced kitchen wait time complaints. Increased +25% merchant satisfaction.',
+                            overallContribution: '+20% App Adoption'
                         }
                     },
                     {
                         id: 'appsensi-hris',
-                        name: 'Appsensi (HRIS App)',
-                        role: 'Head of Product – HRIS App',
+                        name: 'Appsensi (HRIS Mobile & Web App)',
+                        role: 'Head of Product @ PT Appsensi Tiga Ribu',
+                        link: 'https://appsensi.com',
                         problem: 'Payroll inaccuracies due to manual attendance across distributed teams',
                         initiatives: [
                             'Real-Time Tracking, Seamless Reporting, Online & Offline Face Recognition-based attendance, and Integrated Payroll',
@@ -301,29 +406,32 @@
                             'Develop a fully integrated payroll system'
                         ],
                         results: {
-                            label: 'Manual Errors', // Added label for chart dataset
+                            label: 'Manual Errors',
                             animatedValue: 70,
                             unit: '%',
                             prefix: '',
-                            descriptionText: 'fewer manual errors. Significant time savings for HR operations.'
+                            descriptionText: 'fewer manual errors. Significant time savings for HR operations.',
+                            overallContribution: '+15% MAU Increase'
                         }
                     },
                     {
                         id: 'appsensi-insurance',
-                        name: 'Lifepal (Insurance Marketplace)',
-                        role: 'Product Manager – Insurance Product Marketplace',
+                        name: 'Lifepal (Insurance Product Marketplace Web App)',
+                        role: 'Product Manager @ PT Lifepal Technologies Indonesia',
+                        link: 'https://lifepal.co.id',
                         problem: 'Users struggled to find relevant insurance products',
                         initiatives: [
                             'Revamped product filter & onboarding flows',
                             'Introduced personalized product suggestions based on risk profiling',
-                            'Improved segmentation to present more targeted offers.'
+                            'Improved segmentation to present more targeted offers'
                         ],
                         results: {
-                            label: 'Conversion', // Added label for chart dataset
+                            label: 'Conversion',
                             animatedValue: 22,
                             unit: '%',
                             prefix: '', 
-                            descriptionText: 'Increased Search-to-Conversion. Boosted qualified leads through better segmentation'
+                            descriptionText: 'Increased Search-to-Conversion. Boosted qualified leads through better segmentation',
+                            overallContribution: '+30% MoM Business Growth'
                         }
                     }
                 ]
@@ -334,21 +442,19 @@
             const projectSelector = document.getElementById('project-selector');
 
             // Function to animate numbers
-            // Added startFrom parameter with default value 0
             function animateNumber(element, targetValue, duration = 1500, startFrom = 0) {
                 const startTime = performance.now();
 
                 function updateCount(currentTime) {
                     const elapsedTime = currentTime - startTime;
                     const progress = Math.min(elapsedTime / duration, 1);
-                    // Calculate current value based on startFrom and targetValue
                     const currentValue = Math.floor(startFrom + progress * (targetValue - startFrom));
                     element.textContent = currentValue;
 
                     if (progress < 1) {
                         requestAnimationFrame(updateCount);
                     } else {
-                        element.textContent = targetValue; // Ensure final value is set
+                        element.textContent = targetValue;
                     }
                 }
                 requestAnimationFrame(updateCount);
@@ -361,12 +467,11 @@
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
                             const target = parseInt(entry.target.dataset.target);
-                            // Call animateNumber with startFrom = 1 and longer duration
-                            animateNumber(entry.target, target, 2500, 1);
-                            observer.unobserve(entry.target); // Stop observing once animated
+                            animateNumber(entry.target, target, 5000, 1);
+                            observer.unobserve(entry.target);
                         }
                     });
-                }, { threshold: 0.5 }); // Trigger when 50% of element is visible
+                }, { threshold: 0.5 });
 
                 observer.observe(yearsExperienceElement);
             }
@@ -379,32 +484,31 @@
                 const result = project.results;
                 let data;
                 
-                // Reverted: Define previous consistent color palette with alpha 0.6
-                const dangerColor = 'rgba(239, 68, 68, 0.6)'; // Red for negative change
-                const successColor = 'rgba(34, 197, 94, 0.6)'; // Green for positive change
+                const dangerColor = 'rgba(239, 68, 68, 0.6)';
+                const successColor = 'rgba(34, 197, 94, 0.6)';
 
-                if (project.id === 'labamu' || project.id === 'appsensi-hris') { // Reduction type
+                if (project.id === 'labamu' || project.id === 'appsensi-hris') {
                     data = {
                         labels: ['Before', 'After'],
                         datasets: [{
-                            label: result.label, // Use the label from portfolioData
+                            label: result.label,
                             data: [100, 100 - result.animatedValue],
                             backgroundColor: [dangerColor, successColor],
                             borderColor: [dangerColor.replace('0.6', '1'), successColor.replace('0.6', '1')],
                             borderWidth: 1,
-                            borderRadius: 8 // Rounded corners for bars
+                            borderRadius: 8
                         }]
                     };
-                } else { // Increase type (Lifepal)
+                } else {
                     data = {
                         labels: ['Before', 'After'],
                         datasets: [{
-                            label: result.label, // Use the label from portfolioData
+                            label: result.label,
                             data: [100, 100 + result.animatedValue],
-                            backgroundColor: [dangerColor, successColor], /* Consistent colors for before/after */
+                            backgroundColor: [dangerColor, successColor],
                             borderColor: [dangerColor.replace('0.6', '1'), successColor.replace('0.6', '1')],
                             borderWidth: 1,
-                            borderRadius: 8 // Rounded corners for bars
+                            borderRadius: 8
                         }]
                     };
                 }
@@ -419,52 +523,51 @@
                                 callback: function(value) {
                                     return value + '%';
                                 },
-                                color: '#6B7280' // Softer tick color
+                                color: '#6B7280'
                             },
                             grid: {
-                                color: 'rgba(209, 213, 219, 0.3)' // Lighter grid lines
+                                color: 'rgba(209, 213, 219, 0.3)'
                             }
                         },
                         x: {
                             ticks: {
-                                color: '#6B7280' // Softer tick color
+                                color: '#6B7280'
                             },
                             grid: {
-                                display: false // Hide x-axis grid lines for cleaner look
+                                display: false
                             }
                         }
                     },
                     plugins: {
                         legend: {
-                            display: false // Keep legend display false as per previous request
+                            display: false
                         },
                         tooltip: {
                             callbacks: {
                                 label: function(context) {
-                                    // Use the dataset label which is now correctly defined
                                     return `${context.dataset.label}: ${context.raw}%`;
                                 }
                             },
-                            backgroundColor: '#2D3748', // Darker tooltip background
+                            backgroundColor: '#2D3748',
                             titleColor: '#FFFFFF',
                             bodyColor: '#FFFFFF',
                             borderColor: '#C05621',
                             borderWidth: 1,
-                            cornerRadius: 6, // Rounded tooltip corners
-                            displayColors: false // Hide color box in tooltip
+                            cornerRadius: 6,
+                            displayColors: false
                         }
                     }
                 };
                 
-                // Update the text elements for project results
                 const projectResultValueElement = document.getElementById('project-result-value');
                 const projectResultUnitElement = document.getElementById('project-result-unit');
                 const projectResultPrefixElement = document.getElementById('project-result-prefix');
                 const projectResultDescriptionTextElement = document.getElementById('project-result-description-text');
+                const projectOverallContributionElement = document.getElementById('project-overall-contribution');
 
                 if (projectResultValueElement) {
-                    projectResultValueElement.textContent = '0'; // Reset to 0 for animation
-                    animateNumber(projectResultValueElement, result.animatedValue);
+                    projectResultValueElement.textContent = '0';
+                    animateNumber(projectResultValueElement, result.animatedValue, 5000); 
                 }
                 if (projectResultUnitElement) {
                     projectResultUnitElement.textContent = result.unit || '';
@@ -475,7 +578,9 @@
                 if (projectResultDescriptionTextElement) {
                     projectResultDescriptionTextElement.textContent = result.descriptionText || '';
                 }
-
+                if (projectOverallContributionElement) {
+                    projectOverallContributionElement.textContent = result.overallContribution ? `Overall Contribution: ${result.overallContribution}` : '';
+                }
 
                 currentChart = new Chart(chartCanvas, {
                     type: 'bar',
@@ -502,6 +607,15 @@
                     console.error("Element with ID 'project-role' not found.");
                 }
 
+                const projectLinkElement = document.getElementById('project-link');
+                if (projectLinkElement) {
+                    projectLinkElement.href = project.link || '#';
+                    projectLinkElement.textContent = project.link ? project.link.replace(/(^\w+:|^)\/\//, '') : '';
+                    projectLinkElement.style.display = project.link ? 'block' : 'none';
+                } else {
+                    console.error("Element with ID 'project-link' not found.");
+                }
+
                 const projectProblemElement = document.getElementById('project-problem');
                 if (projectProblemElement) {
                     projectProblemElement.textContent = project.problem;
@@ -520,7 +634,6 @@
                 } else {
                     console.error("Element with ID 'project-initiatives' not found.");
                 }
-
 
                 document.querySelectorAll('.project-btn').forEach(btn => {
                     btn.classList.remove('active');
@@ -541,7 +654,6 @@
             });
 
             projectSelector.addEventListener('click', function(e) {
-                // Ensure the click is on the button itself or its child span
                 let targetButton = e.target.closest('.project-btn');
                 if (targetButton) {
                     const projectId = targetButton.dataset.projectId;
@@ -582,6 +694,52 @@
                 });
             });
 
+            // Back to Top Button Logic
+            const backToTopButton = document.getElementById('back-to-top');
+
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) { // Show button after scrolling 300px down
+                    backToTopButton.classList.add('show');
+                } else {
+                    backToTopButton.classList.remove('show');
+                }
+            });
+
+            backToTopButton.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+
+            // Copy to Clipboard Logic
+            function copyToClipboard(text, feedbackElementId) {
+                // Use a temporary textarea to copy text to clipboard
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+
+                // Show feedback
+                const feedbackElement = document.getElementById(feedbackElementId);
+                if (feedbackElement) {
+                    feedbackElement.classList.add('show');
+                    setTimeout(() => {
+                        feedbackElement.classList.remove('show');
+                    }, 2000); // Hide after 2 seconds
+                }
+            }
+
+            document.querySelectorAll('.copy-icon').forEach(icon => {
+                icon.addEventListener('click', (e) => {
+                    const textToCopy = e.target.dataset.copyText || e.target.closest('.copy-icon').dataset.copyText; // Handle click on SVG child
+                    const feedbackId = e.target.nextElementSibling?.id || e.target.closest('.copy-icon').nextElementSibling?.id; // Handle click on SVG child
+                    copyToClipboard(textToCopy, feedbackId);
+                });
+            });
+
             // Initial load
             updateProjectView(portfolioData.projects[0].id);
             const approachTabBtn = document.querySelector('.tab-btn[data-tab="approach"]');
@@ -590,7 +748,7 @@
             } else {
                 console.error("Approach tab button not found.");
             }
-        }; // End of window.onload
+        };
     </script>
 </body>
 </html>
