@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio - Muhammad Ismij Hidayat</title>
+    <title>Product Portfolio - Muhammad Ismij Hidayat</title>
     <!-- Chosen Palette: Warm Neutral Harmony -->
     <!-- Application Structure Plan: A single-page application with a top navigation bar for smooth scrolling. The structure prioritizes impact by featuring an interactive project case study section. Users select a project, and the page dynamically updates text and a Chart.js visualization to showcase key results. This design moves beyond a linear slide deck to an engaging, user-driven exploratory experience, which is more effective for busy hiring managers. An "Approach & Skills" section uses tabs to keep detailed information organized and accessible without cluttering the main view. -->
     <!-- Visualization & Content Choices: 
@@ -162,6 +162,8 @@
             text-align: center;
             opacity: 0;
             transition: opacity 0.3s;
+            /* TEMPORARY: Add a border to make it clearly visible for debugging */
+            border: 2px solid red; 
         }
         .message-feedback.show {
             opacity: 1;
@@ -989,7 +991,7 @@ He was a valuable asset to the product development team and He was able to effec
                         setTimeout(() => {
                             console.log('Hiding modal after success.');
                             hideModal();
-                        }, 2000); // Hide modal after 2 seconds
+                        }, 4000); // Hide modal after 4 seconds (increased from 2s)
                     } else {
                         const data = await response.json();
                         console.error('Formspree response NOT OK:', response.status, data);
