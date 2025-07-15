@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id" class="scroll-smooth">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -842,6 +842,7 @@ He was a valuable asset to the product development team and He was able to effec
             const messageError = document.getElementById('message-error');
 
             function showModal() {
+                console.log('Showing contact modal.');
                 contactModalOverlay.classList.add('show');
                 // Clear form and feedback when showing
                 contactForm.reset();
@@ -857,6 +858,7 @@ He was a valuable asset to the product development team and He was able to effec
             }
 
             function hideModal() {
+                console.log('Hiding contact modal.');
                 contactModalOverlay.classList.remove('show');
             }
 
@@ -918,6 +920,7 @@ He was a valuable asset to the product development team and He was able to effec
                     contactMessageInput.classList.remove('invalid');
                 }
 
+                console.log('Form validation result:', isValid);
                 return isValid;
             }
 
@@ -948,12 +951,14 @@ He was a valuable asset to the product development team and He was able to effec
                 e.preventDefault(); // Prevent default form submission
 
                 if (!validateForm()) {
+                    console.log('Form validation failed.');
                     formFeedback.textContent = 'Please correct the errors in the form.';
                     formFeedback.classList.add('show', 'error');
                     formFeedback.classList.remove('success');
                     return;
                 }
 
+                console.log('Form validation passed. Attempting to send message...');
                 // Show loading indicator (optional, can be added here)
                 formFeedback.textContent = 'Sending message...';
                 formFeedback.classList.add('show');
@@ -975,22 +980,25 @@ He was a valuable asset to the product development team and He was able to effec
                     });
 
                     if (response.ok) {
+                        console.log('Formspree response OK. Displaying success message.');
                         formFeedback.textContent = 'Thank you for reaching out. Your message has been successfully sent and I will respond shortly.';
                         formFeedback.classList.add('show', 'success');
                         formFeedback.classList.remove('error');
                         contactForm.reset(); // Clear form on success
 
                         setTimeout(() => {
+                            console.log('Hiding modal after success.');
                             hideModal();
                         }, 2000); // Hide modal after 2 seconds
                     } else {
                         const data = await response.json();
+                        console.error('Formspree response NOT OK:', response.status, data);
                         formFeedback.textContent = data.error || 'An error occurred while sending the message. Please try again.';
                         formFeedback.classList.add('show', 'error');
                         formFeedback.classList.remove('success');
                     }
                 } catch (error) {
-                    console.error('Error:', error);
+                    console.error('Network or fetch error:', error);
                     formFeedback.textContent = 'A network error occurred. Please try again.';
                     formFeedback.classList.add('show', 'error');
                     formFeedback.classList.remove('success');
