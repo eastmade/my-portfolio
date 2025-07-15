@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Portfolio - Muhammad Ismij Hidayat</title>
+    <title>Portfolio - Muhammad Ismij Hidayat</title>
     <!-- Chosen Palette: Warm Neutral Harmony -->
     <!-- Application Structure Plan: A single-page application with a top navigation bar for smooth scrolling. The structure prioritizes impact by featuring an interactive project case study section. Users select a project, and the page dynamically updates text and a Chart.js visualization to showcase key results. This design moves beyond a linear slide deck to an engaging, user-driven exploratory experience, which is more effective for busy hiring managers. An "Approach & Skills" section uses tabs to keep detailed information organized and accessible without cluttering the main view. -->
     <!-- Visualization & Content Choices: 
@@ -154,36 +154,27 @@
         .modal-close-btn:hover {
             color: #3D4852;
         }
-        /* TEMPORARY DEBUGGING STYLE: Make message-feedback highly visible */
+        /* Adjusted message-feedback style for better visibility and to use display property */
         .message-feedback {
-            position: fixed; /* Make it fixed to ensure it's on top */
-            top: 50%; /* Center vertically */
-            left: 50%; /* Center horizontally */
-            transform: translate(-50%, -50%); /* Adjust for centering */
-            width: 80%; /* Make it wide */
-            max-width: 400px; /* Limit max width */
-            margin-top: 0; /* Remove margin-top as it's fixed */
-            padding: 1.5rem; /* Increase padding */
-            border-radius: 0.75rem;
-            font-weight: 700; /* Bolder font */
-            font-size: 1.25rem; /* Larger font */
+            margin-top: 1rem;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
             text-align: center;
-            opacity: 0;
-            transition: opacity 0.3s ease-in-out; /* Smoother transition */
-            z-index: 2000; /* Ensure it's above everything else */
-            background-color: yellow; /* Very noticeable background */
-            color: black; /* Contrasting text color */
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Add shadow */
+            display: none; /* Hidden by default using display */
+            opacity: 0; /* For fade-in effect when shown */
+            transition: opacity 0.3s; /* For fade-in effect when shown */
         }
         .message-feedback.show {
-            opacity: 1;
+            display: block; /* Shown using display */
+            opacity: 1; /* Ensure it's fully opaque when shown */
         }
         .message-feedback.success {
-            background-color: #D1FAE5; /* This will be overridden by yellow if .show is active */
+            background-color: #D1FAE5;
             color: #065F46;
         }
         .message-feedback.error {
-            background-color: #FEE2E2; /* This will be overridden by yellow if .show is active */
+            background-color: #FEE2E2;
             color: #991B1B;
         }
 
@@ -298,7 +289,7 @@
                             <a id="project-link" href="#" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline text-sm mb-4 block"></a>
                             
                             <h4 class="font-semibold text-gray-700 mt-6 mb-2">Key Challenges</h4>
-                            <p id="project-problem" class="text-gray-600"></p>
+                            <p class="text-gray-600"></p>
 
                             <h4 class="font-semibold text-gray-700 mt-6 mb-2">Some Key Initiatives</h4>
                             <ul id="project-initiatives" class="list-disc list-inside text-gray-600 space-y-1">
@@ -368,7 +359,7 @@
                                         <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">Trello</span>
                                         <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">Notion</span>
                                         <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">Google Workspace</span>
-                                        <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">Office 360</span>
+                                        <span class="bg-100 text-gray-700 px-3 py-1 rounded-full text-sm">Office 360</span>
                                     </div>
                                 </div>
                                 <div>
@@ -741,23 +732,37 @@ He was a valuable asset to the product development team and He was able to effec
                 const project = portfolioData.projects.find(p => p.id === projectId);
                 if (!project) return;
 
-                document.getElementById('project-title').textContent = project.name;
-                document.getElementById('project-role').textContent = project.role;
+                const projectTitleElement = document.getElementById('project-title');
+                if (projectTitleElement) {
+                    projectTitleElement.textContent = project.name;
+                }
+                
+                const projectRoleElement = document.getElementById('project-role');
+                if (projectRoleElement) {
+                    projectRoleElement.textContent = project.role;
+                }
                 
                 const projectLinkElement = document.getElementById('project-link');
-                projectLinkElement.href = project.link || '#';
-                projectLinkElement.textContent = project.link ? project.link.replace(/(^\w+:|^)\/\//, '') : '';
-                projectLinkElement.style.display = project.link ? 'block' : 'none';
+                if (projectLinkElement) {
+                    projectLinkElement.href = project.link || '#';
+                    projectLinkElement.textContent = project.link ? project.link.replace(/(^\w+:|^)\/\//, '') : '';
+                    projectLinkElement.style.display = project.link ? 'block' : 'none';
+                }
                 
-                document.getElementById('project-problem').textContent = project.problem;
+                const projectProblemElement = document.getElementById('project-problem');
+                if (projectProblemElement) {
+                    projectProblemElement.textContent = project.problem;
+                }
                 
                 const initiativesList = document.getElementById('project-initiatives');
-                initiativesList.innerHTML = '';
-                project.initiatives.forEach(item => {
-                    const li = document.createElement('li');
-                    li.textContent = item;
-                    initiativesList.appendChild(li);
-                });
+                if (initiativesList) {
+                    initiativesList.innerHTML = '';
+                    project.initiatives.forEach(item => {
+                        const li = document.createElement('li');
+                        li.textContent = item;
+                        initiativesList.appendChild(li);
+                    });
+                }
 
                 document.querySelectorAll('.project-btn').forEach(btn => {
                     btn.classList.remove('active');
@@ -856,6 +861,8 @@ He was a valuable asset to the product development team and He was able to effec
             function showModal() {
                 console.log('Showing contact modal.');
                 contactModalOverlay.classList.add('show');
+                // Ensure form is visible when modal opens
+                contactForm.style.display = 'block'; 
                 // Clear form and feedback when showing
                 contactForm.reset();
                 formFeedback.classList.remove('show', 'success', 'error');
@@ -999,19 +1006,26 @@ He was a valuable asset to the product development team and He was able to effec
 
                     if (response.ok) {
                         console.log('Formspree response OK. Displaying success message.');
+                        
+                        // Hide the form elements
+                        contactForm.style.display = 'none'; 
+                        
+                        // Display the feedback message prominently
                         formFeedback.textContent = 'Thank you for reaching out. Your message has been successfully sent and I will respond shortly.';
                         formFeedback.classList.add('show', 'success');
                         formFeedback.classList.remove('error');
-                        contactForm.reset(); // Clear form on success
-
-                        // Re-enable button and reset text
+                        
+                        // Re-enable button (though it's hidden with the form) and reset text
                         submitButton.disabled = false;
                         submitButton.textContent = 'Send Message';
 
-                        // Keep the success message visible for a bit longer, then hide modal
+                        // Now, after a delay, hide the entire modal
                         setTimeout(() => {
                             console.log('Hiding modal after success.');
                             hideModal();
+                            // Also reset form display for next time it's opened
+                            contactForm.style.display = 'block'; 
+                            contactForm.reset(); // Reset form fields after modal closes
                         }, 4000); // Hide modal after 4 seconds
                     } else {
                         const data = await response.json();
